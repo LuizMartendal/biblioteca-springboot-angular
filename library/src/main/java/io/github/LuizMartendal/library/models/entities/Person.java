@@ -1,6 +1,7 @@
 package io.github.LuizMartendal.library.models.entities;
 
 import io.github.LuizMartendal.library.models.ModelImpl;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Table
 @Data
+@Schema(name = "Person", description = "Person entity")
 public class Person extends ModelImpl implements Serializable {
 
     private static final long serialVersionUID = 1L;
