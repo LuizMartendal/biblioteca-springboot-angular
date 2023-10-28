@@ -1,5 +1,7 @@
 package io.github.LuizMartendal.library.services;
 
+import io.github.LuizMartendal.library.exceptions.especifics.BadRequestException;
+import io.github.LuizMartendal.library.exceptions.especifics.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +29,7 @@ public abstract class ServiceImpl<T> implements io.github.LuizMartendal.library.
     @Override
     public T retrieve(UUID id) {
         return getRepository().findById(id)
-                .orElseThrow(() -> new RuntimeException("Entity not found"));
+                .orElseThrow(() -> new NotFoundException("Entity not found"));
     }
 
     @Transactional
@@ -43,7 +45,7 @@ public abstract class ServiceImpl<T> implements io.github.LuizMartendal.library.
                     try {
                         foundField.set(foundEntity, field.get(entity));
                     } catch (Exception e) {
-                        throw new RuntimeException("Verify the fields");
+                        throw new BadRequestException("Verify the fields");
                     }
                 }
             }

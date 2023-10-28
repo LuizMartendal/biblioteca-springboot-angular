@@ -1,8 +1,10 @@
 package io.github.LuizMartendal.library.models.entities;
 
 import io.github.LuizMartendal.library.models.ModelImpl;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity(name = "people")
+@Entity(name = "person")
+@NoArgsConstructor
+@AllArgsConstructor
 @Table
 @Data
 public class Person extends ModelImpl implements Serializable {

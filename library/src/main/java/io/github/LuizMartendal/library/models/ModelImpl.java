@@ -1,5 +1,6 @@
 package io.github.LuizMartendal.library.models;
 
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+@Data
 @MappedSuperclass
 public class ModelImpl implements Serializable {
 
