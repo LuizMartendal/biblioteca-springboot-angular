@@ -19,25 +19,25 @@ public abstract class ControllerImpl<T> implements Controller<T> {
         return ResponseEntity.ok().body(getService().create(entity));
     }
 
-    @GetMapping
+    @GetMapping(produces = { "application/json", "application/xml" })
     @Override
     public ResponseEntity<List<T>> retrieveAll() {
         return ResponseEntity.ok().body(getService().retrieveAll());
     }
 
-    @GetMapping("{id}")
+    @GetMapping(value = "{id}")
     @Override
     public ResponseEntity<T> retrieve(@PathVariable UUID id) {
         return ResponseEntity.ok().body(getService().retrieve(id));
     }
 
-    @PutMapping("{id}")
+    @PutMapping(value = "{id}")
     @Override
     public ResponseEntity<T> update(@PathVariable UUID id, @RequestBody @Valid T entity) {
         return ResponseEntity.ok().body(getService().update(id, entity));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping(value = "{id}")
     @Override
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         getService().delete(id);

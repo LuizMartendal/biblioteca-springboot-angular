@@ -15,7 +15,7 @@ public class ExceptionHandlerInterceptor {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandError> exception(Exception e) {
         return ResponseEntity.ok().body(new StandError(
-                HttpStatus.INTERNAL_SERVER_ERROR.name(), 
+                HttpStatus.INTERNAL_SERVER_ERROR.name(),
                 e.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 System.currentTimeMillis()
