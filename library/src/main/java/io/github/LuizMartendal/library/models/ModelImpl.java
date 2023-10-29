@@ -1,13 +1,13 @@
 package io.github.LuizMartendal.library.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.github.LuizMartendal.library.services.entities.PersonService;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,11 +26,11 @@ public class ModelImpl implements Serializable {
 
     @Column(columnDefinition = "date")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate createdIn;
+    private Date createdIn;
 
     @Column(columnDefinition = "date")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate updatedIn;
+    private Date updatedIn;
 
     @Column
     private String createdBy;
@@ -40,10 +40,16 @@ public class ModelImpl implements Serializable {
 
     @PrePersist
     private void prePersist() {
-        createdIn = LocalDate.now();
-        updatedIn = LocalDate.now();
+        createdIn = new Date();
+        updatedIn = new Date();
 
-        createdBy = "Not authenticated";
-        updatedBy = "Not authenticated";
+        createdBy = PersonService.getLoggedUser();
+        updatedBy = PersonService.getLoggedUser();
+    }
+
+    @PostPersist
+    private void postPersist() {
+        updatedIn = new Date();
+        updatedBy = PersonService.getLoggedUser();
     }
 }
