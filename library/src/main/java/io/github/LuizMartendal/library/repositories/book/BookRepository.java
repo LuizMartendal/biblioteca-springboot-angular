@@ -1,4 +1,4 @@
-package io.github.LuizMartendal.library.repositories;
+package io.github.LuizMartendal.library.repositories.book;
 
 import io.github.LuizMartendal.library.models.entities.Book;
 import org.springframework.data.jpa.repository.JpaRepository;

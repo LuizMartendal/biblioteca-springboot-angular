@@ -1,6 +1,8 @@
 package io.github.LuizMartendal.library.controllers;
 
 import io.github.LuizMartendal.library.services.Service;
+import io.github.LuizMartendal.library.utils.FilterImpl;
+import io.github.LuizMartendal.library.utils.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +38,13 @@ public abstract class ControllerImpl<T> implements Controller<T> {
             })
     @GetMapping(produces = { "application/json", "application/xml" })
     @Override
-    public ResponseEntity<List<T>> retrieveAll() {
-        return ResponseEntity.ok().body(getService().retrieveAll());
+    public ResponseEntity<Page<T>> retrieveAll(
+            @RequestParam(name = "filter", required = false) String filter,
+            @RequestParam(name = "size", required = false) Integer size,
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "order", required = false, defaultValue = "asc") String order
+    ) {
+        return ResponseEntity.ok().body(getService().retrieveAll(FilterImpl.parse(filter, size, page, order)));
     }
 
     @Operation(summary = "This method is responsible for retrieve a entity by id",

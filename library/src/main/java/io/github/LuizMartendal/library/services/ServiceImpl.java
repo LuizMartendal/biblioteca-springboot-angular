@@ -2,6 +2,9 @@ package io.github.LuizMartendal.library.services;
 
 import io.github.LuizMartendal.library.exceptions.especifics.BadRequestException;
 import io.github.LuizMartendal.library.exceptions.especifics.NotFoundException;
+import io.github.LuizMartendal.library.repositories.Repository;
+import io.github.LuizMartendal.library.utils.FilterImpl;
+import io.github.LuizMartendal.library.utils.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +24,14 @@ public abstract class ServiceImpl<T> implements io.github.LuizMartendal.library.
 
     @Transactional
     @Override
-    public List<T> retrieveAll() {
-        return getRepository().findAll();
+    public Page<T> retrieveAll(FilterImpl filter) {
+        return ((Repository<T>) getRepository()).retrieveAll(filter);
     }
 
     @Transactional
     @Override
     public T retrieve(UUID id) {
-        return getRepository().findById(id)
-                .orElseThrow(() -> new NotFoundException("Entity not found"));
+        return ((Repository<T>) getRepository()).retrieve(id);
     }
 
     @Transactional

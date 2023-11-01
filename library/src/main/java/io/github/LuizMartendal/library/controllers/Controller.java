@@ -1,5 +1,6 @@
 package io.github.LuizMartendal.library.controllers;
 
+import io.github.LuizMartendal.library.utils.Page;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface Controller<T> {
 
     ResponseEntity<T> create(T entity);
 
-    ResponseEntity<List<T>> retrieveAll();
+    ResponseEntity<Page<T>> retrieveAll(String filter, Integer size, Integer page, String order);
 
     ResponseEntity<T> retrieve(UUID id);
 
