@@ -24,20 +24,20 @@ public abstract class ServiceImpl<T> implements io.github.LuizMartendal.library.
 
     @Transactional
     @Override
-    public Page<T> retrieveAll(FilterImpl filter) {
-        return ((Repository<T>) getRepository()).retrieveAll(filter);
+    public Page<T> list(FilterImpl filter) {
+        return ((Repository<T>) getRepository()).list(filter);
     }
 
     @Transactional
     @Override
-    public T retrieve(UUID id) {
-        return ((Repository<T>) getRepository()).retrieve(id);
+    public T getById(UUID id) {
+        return ((Repository<T>) getRepository()).getById(id);
     }
 
     @Transactional
     @Override
     public T update(UUID id, T entity) {
-        T foundEntity = retrieve(id);
+        T foundEntity = getById(id);
         for (Field foundField : foundEntity.getClass().getDeclaredFields()) {
             for (Field field : entity.getClass().getDeclaredFields()) {
                 if (field.getName().equals(foundField.getName()) && !"id".equals(field.getName())
@@ -58,7 +58,7 @@ public abstract class ServiceImpl<T> implements io.github.LuizMartendal.library.
     @Transactional
     @Override
     public void delete(UUID id) {
-        getRepository().delete(retrieve(id));
+        getRepository().delete(getById(id));
     }
 
     @Transactional

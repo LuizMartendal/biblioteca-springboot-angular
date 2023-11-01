@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@org.springframework.stereotype.Repository
 public abstract class RepositoryImpl<T> implements Repository<T> {
 
     @PersistenceContext
@@ -24,7 +25,7 @@ public abstract class RepositoryImpl<T> implements Repository<T> {
     public abstract EntityPathBase<T> getEntity();
 
     @Override
-    public Page<T> retrieveAll(FilterImpl filter) {
+    public Page<T> list(FilterImpl filter) {
         JPAQueryBase base = new JPAQuery(em).from(getEntity());
 
         try {
@@ -145,7 +146,7 @@ public abstract class RepositoryImpl<T> implements Repository<T> {
     }
 
     @Override
-    public T retrieve(UUID id) {
+    public T getById(UUID id) {
         JPAQueryBase base = new JPAQuery(em).from(getEntity());
         try {
             ComparablePath<UUID> comparablePath = (ComparablePath<UUID>) getEntity().getClass().getField("id").get(getEntity());

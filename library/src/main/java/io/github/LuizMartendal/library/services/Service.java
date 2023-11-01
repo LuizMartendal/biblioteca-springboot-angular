@@ -10,9 +10,9 @@ public interface Service<T> {
 
     T create(T entity);
 
-    Page<T> retrieveAll(FilterImpl filter);
+    Page<T> list(FilterImpl filter);
 
-    T retrieve(UUID id);
+    T getById(UUID id);
 
     T update(UUID id, T entity);
 

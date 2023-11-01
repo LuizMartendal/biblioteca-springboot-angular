@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -44,7 +43,7 @@ public abstract class ControllerImpl<T> implements Controller<T> {
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "order", required = false, defaultValue = "asc") String order
     ) {
-        return ResponseEntity.ok().body(getService().retrieveAll(FilterImpl.parse(filter, size, page, order)));
+        return ResponseEntity.ok().body(getService().list(FilterImpl.parse(filter, size, page, order)));
     }
 
     @Operation(summary = "This method is responsible for retrieve a entity by id",
@@ -56,7 +55,7 @@ public abstract class ControllerImpl<T> implements Controller<T> {
     @GetMapping(value = "{id}", produces = { "application/json", "application/xml" })
     @Override
     public ResponseEntity<T> retrieve(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(getService().retrieve(id));
+        return ResponseEntity.ok().body(getService().getById(id));
     }
 
     @Operation(summary = "This method is responsible for update a entity by id and entity-selve hehe",
