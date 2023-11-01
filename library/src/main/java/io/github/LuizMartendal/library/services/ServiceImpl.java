@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.UUID;
 
+@org.springframework.stereotype.Repository
 public abstract class ServiceImpl<T> implements io.github.LuizMartendal.library.services.Service<T> {
 
     public abstract JpaRepository<T, UUID> getRepository();
