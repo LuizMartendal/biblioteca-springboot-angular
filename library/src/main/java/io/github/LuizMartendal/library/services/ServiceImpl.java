@@ -32,7 +32,14 @@ public abstract class ServiceImpl<T> implements io.github.LuizMartendal.library.
     @Transactional
     @Override
     public T getById(UUID id) {
-        return ((Repository<T>) getRepository()).getById(id);
+        if (id == null) {
+            throw new BadRequestException("Id cannot be null");
+        }
+        T entity = ((Repository<T>) getRepository()).getById(id);
+        if (entity != null) {
+            return entity;
+        }
+        throw new NotFoundException("Entity not found");
     }
 
     @Transactional
@@ -53,7 +60,7 @@ public abstract class ServiceImpl<T> implements io.github.LuizMartendal.library.
                 }
             }
         }
-        return null;
+        return getRepository().save(foundEntity);
     }
 
     @Transactional

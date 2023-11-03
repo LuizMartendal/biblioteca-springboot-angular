@@ -32,11 +32,14 @@ public class PersonService extends ServiceImpl<Person> implements UserDetailsSer
 
     @Override
     public Person create(Person entity) {
-        if (findByUsername(entity.getUsername()) != null) {
-            throw new BadRequestException("ThereÂ´s already a user with this username");
+        try {
+            if (findByUsername(entity.getUsername()) != null) {
+                throw new BadRequestException("There´s already a user with this username");
+            }
+        } catch (NotFoundException nfe) {
+            entity.setPassword(new BCryptPasswordEncoder().encode(entity.getPassword()));
+            entity.setRole(Roles.USER);
         }
-        entity.setPassword(new BCryptPasswordEncoder().encode(entity.getPassword()));
-        entity.setRole(Roles.USER);
         return super.create(entity);
     }
 

@@ -43,7 +43,7 @@ public abstract class RepositoryImpl<T> implements Repository<T> {
                         case MAIOR_IGUAL: base.where(longNumberPath.goe(filterQuery.getLongValue())); break;
                         case MENOR: base.where(longNumberPath.lt(filterQuery.getLongValue())); break;
                         case MENOR_IGUAL: base.where(longNumberPath.loe(filterQuery.getLongValue())); break;
-                        default: throw new BadRequestException("Incorrect modfier");
+                        default: throw new BadRequestException("Incorrect modifier");
                     }
                 }
                 if (filterQuery.getDateValue() != null) {
@@ -54,7 +54,7 @@ public abstract class RepositoryImpl<T> implements Repository<T> {
                         case  MAIOR_IGUAL: base.where(dateTimePath.goe(filterQuery.getDateValue())); break;
                         case MENOR: base.where(dateTimePath.lt(filterQuery.getDateValue())); break;
                         case MENOR_IGUAL: base.where(dateTimePath.loe(filterQuery.getDateValue())); break;
-                        default: throw new BadRequestException("Incorrect modfier");
+                        default: throw new BadRequestException("Incorrect modifier");
                     }
                 }
                 if (filterQuery.getStringValue() != null) {
@@ -78,7 +78,7 @@ public abstract class RepositoryImpl<T> implements Repository<T> {
                             case MENOR: base.where(stringPath.lt(filterQuery.getStringValue())); break;
                             case MENOR_IGUAL: base.where(stringPath.loe(filterQuery.getStringValue())); break;
                             case LIKE: base.where(stringPath.containsIgnoreCase(filterQuery.getStringValue())); break;
-                            default: throw new BadRequestException("Incorrect modfier");
+                            default: throw new BadRequestException("Incorrect modifier");
                         }
                     }
                 }
@@ -147,17 +147,13 @@ public abstract class RepositoryImpl<T> implements Repository<T> {
 
     @Override
     public T getById(UUID id) {
-        JPAQueryBase base = new JPAQuery(em).from(getEntity());
+        JPAQuery<T> base = new JPAQuery<T>(em).from(getEntity());
         try {
             ComparablePath<UUID> comparablePath = (ComparablePath<UUID>) getEntity().getClass().getField("id").get(getEntity());
             base.where(comparablePath.eq(id));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-        List<T> entity = base.fetch();
-        if (entity != null && !entity.isEmpty()) {
-            return entity.get(0);
-        }
-        throw new NotFoundException(id.toString());
+        return base.fetch().get(0);
     }
 }
