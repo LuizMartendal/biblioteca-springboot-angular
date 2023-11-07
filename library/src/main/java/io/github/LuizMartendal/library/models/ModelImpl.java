@@ -43,13 +43,23 @@ public class ModelImpl implements Serializable {
         createdIn = new Date();
         updatedIn = new Date();
 
-        createdBy = PersonService.getLoggedUser();
-        updatedBy = PersonService.getLoggedUser();
+        try {
+            createdBy = PersonService.getLoggedUser();
+            updatedBy = PersonService.getLoggedUser();
+        } catch (Exception e) {
+            createdBy = "Not authenticated";
+            updatedBy = "Not authenticated";
+        }
     }
 
     @PostPersist
     private void postPersist() {
-        updatedIn = new Date();
-        updatedBy = PersonService.getLoggedUser();
+        try {
+            updatedIn = new Date();
+            updatedBy = PersonService.getLoggedUser();
+        } catch (Exception e) {
+            updatedIn = new Date();
+            updatedBy = "Not authenticated";
+        }
     }
 }

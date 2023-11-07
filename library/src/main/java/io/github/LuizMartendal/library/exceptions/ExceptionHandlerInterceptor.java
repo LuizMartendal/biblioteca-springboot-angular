@@ -22,7 +22,7 @@ public class ExceptionHandlerInterceptor {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandError> exception(Exception e) {
         e.printStackTrace();
-        return ResponseEntity.ok().body(new StandError(
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new StandError(
                 HttpStatus.INTERNAL_SERVER_ERROR.name(),
                 "There´s a problem with the server. Try again later",
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
