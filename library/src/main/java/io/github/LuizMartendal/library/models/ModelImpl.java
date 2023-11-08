@@ -25,11 +25,11 @@ public class ModelImpl implements Serializable {
     protected UUID id;
 
     @Column(columnDefinition = "date")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "YYYY-MM-DD'T'hh:mm:ss")
     private Date createdIn;
 
     @Column(columnDefinition = "date")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "YYYY-MM-DD'T'hh:mm:ss")
     private Date updatedIn;
 
     @Column

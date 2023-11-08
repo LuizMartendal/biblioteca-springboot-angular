@@ -12,8 +12,10 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
+@XmlRootElement
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "person")
 @NoArgsConstructor

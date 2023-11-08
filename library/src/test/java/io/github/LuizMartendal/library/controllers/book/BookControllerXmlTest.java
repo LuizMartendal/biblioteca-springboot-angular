@@ -1,13 +1,13 @@
-package io.github.LuizMartendal.library.controllers.person;
+package io.github.LuizMartendal.library.controllers.book;
 
-import groovy.lang.GroovyRuntimeException;
 import io.github.LuizMartendal.library.configs.TestConfig;
 import io.github.LuizMartendal.library.dtos.CredentialsDto;
 import io.github.LuizMartendal.library.dtos.TokenDto;
-import io.github.LuizMartendal.library.enuns.Roles;
 import io.github.LuizMartendal.library.exceptions.StandError;
 import io.github.LuizMartendal.library.integrations.AbstractIntegrationTest;
+import io.github.LuizMartendal.library.mocks.MockBook;
 import io.github.LuizMartendal.library.mocks.MockPerson;
+import io.github.LuizMartendal.library.models.entities.Book;
 import io.github.LuizMartendal.library.models.entities.Person;
 import io.github.LuizMartendal.library.utils.Page;
 import io.restassured.builder.RequestSpecBuilder;
@@ -15,33 +15,27 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.DeserializationFeature;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.nio.file.AccessDeniedException;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PersonControllerJsonTest extends AbstractIntegrationTest {
+public class BookControllerXmlTest extends AbstractIntegrationTest {
 
     private static RequestSpecification specification;
+    private static MockBook mockBook;
     private static MockPerson mockPerson;
-    private static Person person;
+    private static Book book;
 
     @BeforeAll
     public static void setUp() {
         mockPerson = new MockPerson();
-        person = new Person();
+        mockBook = new MockBook();
+        book = new Book();
     }
 
     @Test
@@ -51,7 +45,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         given()
                 .basePath("/person")
                 .port(TestConfig.SERVER_PORT)
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .body(personAdminMock)
                 .when()
                     .post()
@@ -64,7 +58,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         TokenDto tokenDto = given()
                 .basePath("/login")
                 .port(TestConfig.SERVER_PORT)
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .body(credentialsDto)
                 .when()
                     .post()
@@ -86,62 +80,57 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
     @Test
     @Order(1)
     public void testCreate() {
-        Person personMock = mockPerson.mockPersonUser(1);
+        Book bookMock = mockBook.mockBook(1);
 
-        person = given()
+        book = given()
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
-                    .body(personMock)
+                .basePath("/book")
+                .contentType(TestConfig.CONTENT_TYPE_XML)
+                    .body(bookMock)
                 .when()
                     .post()
                 .then()
                     .statusCode(200)
-                    .extract().as(Person.class);
+                    .extract().as(Book.class);
 
-        assertNotNull(person);
-        assertNotNull(person.getId());
-        assertNotNull(person.getCreatedBy());
-        assertNotNull(person.getCreatedIn());
-        assertNotNull(person.getUpdatedBy());
-        assertNotNull(person.getUpdatedIn());
+        assertNotNull(book);
+        assertNotNull(book.getId());
+        assertNotNull(book.getCreatedBy());
+        assertNotNull(book.getCreatedIn());
+        assertNotNull(book.getUpdatedBy());
+        assertNotNull(book.getUpdatedIn());
 
-        assertEquals(personMock.getUsername(), person.getUsername());
-        assertEquals(personMock.getFirstName(), person.getFirstName());
-        assertEquals(personMock.getLastName(), person.getLastName());
-        assertEquals(personMock.getRole(), person.getRole());
-        assertEquals(personMock.getAddress(), person.getAddress());
-        assertEquals(personMock.getGender(), person.getGender());
-
-        assertTrue(new BCryptPasswordEncoder().matches(personMock.getPassword(), person.getPassword()));
+        assertEquals(bookMock.getTitle(), book.getTitle());
+        assertEquals(bookMock.getAuthor(), book.getAuthor());
+        assertEquals(bookMock.getPrice(), book.getPrice(), 0.0);
+        assertNotNull(book.getLaunchDate());
     }
 
     @Test
     @Order(2)
     public void testUpdate() {
-        Person personMock = mockPerson.mockCreatedPersonAdmin(1);
+        Book bookMock = mockBook.mockCreatedBook(1);
 
-        personMock.setId(person.getId());
-        personMock.setCreatedIn(person.getCreatedIn());
-        personMock.setCreatedBy(person.getCreatedBy());
-        personMock.setUpdatedIn(person.getUpdatedIn());
-        personMock.setUpdatedBy(person.getUpdatedBy());
-        personMock.setPassword(person.getPassword());
+        bookMock.setId(book.getId());
+        bookMock.setCreatedIn(book.getCreatedIn());
+        bookMock.setCreatedBy(book.getCreatedBy());
+        bookMock.setUpdatedIn(book.getUpdatedIn());
+        bookMock.setUpdatedBy(book.getUpdatedBy());
 
-        Person result = given()
+        Book result = given()
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
-                  .pathParam("id", person.getId())
-                  .body(personMock)
+                .basePath("/book")
+                .contentType(TestConfig.CONTENT_TYPE_XML)
+                  .pathParam("id", book.getId())
+                  .body(bookMock)
                 .when()
                   .put("{id}")
                 .then()
                     .statusCode(200)
                     .extract()
-                        .body().as(Person.class);
+                        .body().as(Book.class);
 
         assertNotNull(result);
         assertNotNull(result.getId());
@@ -150,36 +139,32 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertNotNull(result.getUpdatedBy());
         assertNotNull(result.getUpdatedIn());
 
-        assertEquals(person.getUsername(), result.getUsername());
-        assertEquals(person.getFirstName(), result.getFirstName());
-        assertEquals(person.getLastName(), result.getLastName());
-        assertEquals(person.getAddress(), result.getAddress());
-        assertEquals(person.getGender(), result.getGender());
-
-        assertNotEquals(person.getRole(), result.getRole());
+        assertEquals(bookMock.getTitle(), result.getTitle());
+        assertEquals(bookMock.getAuthor(), result.getAuthor());
+        assertEquals(bookMock.getPrice(), result.getPrice(), 0.0);
+        assertNotNull(book.getLaunchDate());
     }
 
     @Test
     @Order(3)
     public void testUnauthorizedUpdate() {
-        Person personMock = mockPerson.mockCreatedPersonAdmin(1);
+        Book bookMock = mockBook.mockCreatedBook(1);
 
-        personMock.setId(person.getId());
-        personMock.setCreatedIn(person.getCreatedIn());
-        personMock.setCreatedBy(person.getCreatedBy());
-        personMock.setUpdatedIn(person.getUpdatedIn());
-        personMock.setUpdatedBy(person.getUpdatedBy());
-        personMock.setPassword(person.getPassword());
+        bookMock.setId(book.getId());
+        bookMock.setCreatedIn(book.getCreatedIn());
+        bookMock.setCreatedBy(book.getCreatedBy());
+        bookMock.setUpdatedIn(book.getUpdatedIn());
+        bookMock.setUpdatedBy(book.getUpdatedBy());
 
         StandError error = given()
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
+                .basePath("/book")
                 .port(TestConfig.SERVER_PORT)
                 .filter(new RequestLoggingFilter(LogDetail.ALL))
                 .filter(new ResponseLoggingFilter(LogDetail.ALL))
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
-                    .pathParam("id", person.getId())
-                    .body(person)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
+                    .pathParam("id", book.getId())
+                    .body(bookMock)
                 .when()
                     .put("{id}")
                 .then()
@@ -197,55 +182,30 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
     @Test
     @Order(4)
     public void testFindById() {
-        Person result = given()
+        Book result = given()
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
-                    .pathParam("id", person.getId())
+                .basePath("/book")
+                .contentType(TestConfig.CONTENT_TYPE_XML)
+                    .pathParam("id", book.getId())
                 .when()
                     .get("{id}")
                 .then()
                     .statusCode(200)
                     .extract()
-                        .body().as(Person.class);
+                        .body().as(Book.class);
 
         assertNotNull(result);
     }
 
     @Test
     @Order(5)
-    public void testUnauthorizedFindById() {
-        StandError error = given()
-                .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
-                .port(TestConfig.SERVER_PORT)
-                .filter(new RequestLoggingFilter(LogDetail.ALL))
-                .filter(new ResponseLoggingFilter(LogDetail.ALL))
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
-                    .pathParam("id", person.getId())
-                .when()
-                    .get("{id}")
-                .then()
-                    .statusCode(401)
-                    .extract()
-                        .body().as(StandError.class);
-
-        assertNotNull(error);
-
-        assertEquals("UNAUTHORIZED", error.getStatus());
-        assertEquals("You cannot access this service", error.getMessage());
-        assertEquals(401, error.getCode());
-    }
-
-    @Test
-    @Order(6)
     public void testFindAll() {
         Page result = given()
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .basePath("/book")
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                 .when()
                 .get()
                 .then()
@@ -257,38 +217,14 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(7)
-    public void testUnauthorizedFindAll() {
-        StandError error = given()
-                .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
-                .port(TestConfig.SERVER_PORT)
-                .filter(new RequestLoggingFilter(LogDetail.ALL))
-                .filter(new ResponseLoggingFilter(LogDetail.ALL))
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
-                .when()
-                .get()
-                .then()
-                .statusCode(401)
-                .extract()
-                .body().as(StandError.class);
-
-        assertNotNull(error);
-
-        assertEquals("UNAUTHORIZED", error.getStatus());
-        assertEquals("You cannot access this service", error.getMessage());
-        assertEquals(401, error.getCode());
-    }
-
-    @Test
-    @Order(8)
+    @Order(6)
     public void testDelete() {
         given()
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
-                    .pathParam("id", person.getId())
+                .basePath("/book")
+                .contentType(TestConfig.CONTENT_TYPE_XML)
+                    .pathParam("id", book.getId())
                 .when()
                     .delete("{id}")
                 .then()
@@ -296,16 +232,16 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(9)
+    @Order(7)
     public void testUnauthorizedDelete() {
         StandError error = given()
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
-                .basePath("/person")
+                .basePath("/book")
                 .port(TestConfig.SERVER_PORT)
                     .filter(new RequestLoggingFilter(LogDetail.ALL))
                     .filter(new ResponseLoggingFilter(LogDetail.ALL))
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
-                    .pathParam("id", person.getId())
+                .contentType(TestConfig.CONTENT_TYPE_XML)
+                    .pathParam("id", book.getId())
                 .when()
                     .delete("{id}")
                 .then()

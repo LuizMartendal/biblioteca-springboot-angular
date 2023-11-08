@@ -1,10 +1,8 @@
 package io.github.LuizMartendal.library.controllers.person;
 
-import groovy.lang.GroovyRuntimeException;
 import io.github.LuizMartendal.library.configs.TestConfig;
 import io.github.LuizMartendal.library.dtos.CredentialsDto;
 import io.github.LuizMartendal.library.dtos.TokenDto;
-import io.github.LuizMartendal.library.enuns.Roles;
 import io.github.LuizMartendal.library.exceptions.StandError;
 import io.github.LuizMartendal.library.integrations.AbstractIntegrationTest;
 import io.github.LuizMartendal.library.mocks.MockPerson;
@@ -15,24 +13,16 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.DeserializationFeature;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.nio.file.AccessDeniedException;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PersonControllerJsonTest extends AbstractIntegrationTest {
+public class PersonControllerXmlTest extends AbstractIntegrationTest {
 
     private static RequestSpecification specification;
     private static MockPerson mockPerson;
@@ -51,7 +41,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         given()
                 .basePath("/person")
                 .port(TestConfig.SERVER_PORT)
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .body(personAdminMock)
                 .when()
                     .post()
@@ -64,7 +54,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         TokenDto tokenDto = given()
                 .basePath("/login")
                 .port(TestConfig.SERVER_PORT)
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .body(credentialsDto)
                 .when()
                     .post()
@@ -92,7 +82,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
                 .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .body(personMock)
                 .when()
                     .post()
@@ -133,7 +123,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
                 .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                   .pathParam("id", person.getId())
                   .body(personMock)
                 .when()
@@ -177,7 +167,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .port(TestConfig.SERVER_PORT)
                 .filter(new RequestLoggingFilter(LogDetail.ALL))
                 .filter(new ResponseLoggingFilter(LogDetail.ALL))
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .pathParam("id", person.getId())
                     .body(person)
                 .when()
@@ -201,7 +191,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
                 .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .pathParam("id", person.getId())
                 .when()
                     .get("{id}")
@@ -222,7 +212,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .port(TestConfig.SERVER_PORT)
                 .filter(new RequestLoggingFilter(LogDetail.ALL))
                 .filter(new ResponseLoggingFilter(LogDetail.ALL))
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .pathParam("id", person.getId())
                 .when()
                     .get("{id}")
@@ -245,7 +235,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
                 .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                 .when()
                 .get()
                 .then()
@@ -265,7 +255,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .port(TestConfig.SERVER_PORT)
                 .filter(new RequestLoggingFilter(LogDetail.ALL))
                 .filter(new ResponseLoggingFilter(LogDetail.ALL))
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                 .when()
                 .get()
                 .then()
@@ -287,7 +277,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .spec(specification)
                 .header(TestConfig.HEADER_PARAM_ORIGIN, "http://localhost:4200")
                 .basePath("/person")
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .pathParam("id", person.getId())
                 .when()
                     .delete("{id}")
@@ -304,7 +294,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .port(TestConfig.SERVER_PORT)
                     .filter(new RequestLoggingFilter(LogDetail.ALL))
                     .filter(new ResponseLoggingFilter(LogDetail.ALL))
-                .contentType(TestConfig.CONTENT_TYPE_JSON)
+                .contentType(TestConfig.CONTENT_TYPE_XML)
                     .pathParam("id", person.getId())
                 .when()
                     .delete("{id}")

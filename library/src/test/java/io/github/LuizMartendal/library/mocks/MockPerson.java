@@ -56,6 +56,7 @@ public class MockPerson {
 
         person.setFirstName("First name " + number);
         person.setLastName("Last name " + number);
+        person.setUsername("User " + number);
         person.setPassword(new BCryptPasswordEncoder().encode("1234"));
         person.setAddress("Street " + 1);
         person.setGender("Male");
@@ -69,6 +70,7 @@ public class MockPerson {
 
         person.setFirstName("First name " + number);
         person.setLastName("Last name " + number);
+        person.setUsername("User " + number);
         person.setPassword("1234");
         person.setAddress("Street " + 1);
         person.setGender("Male");

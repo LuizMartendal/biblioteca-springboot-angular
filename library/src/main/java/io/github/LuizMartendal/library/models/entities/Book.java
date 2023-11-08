@@ -14,11 +14,13 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+@XmlRootElement
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -37,7 +39,7 @@ public class Book extends ModelImpl implements Serializable {
 
     @NotNull(message = "Launch date field cannot be null")
     @Column(columnDefinition = "date")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "YYYY-MM-DD'T'hh:mm:ss")
     private Date launchDate;
 
     @NotNull(message = "Price field cannot be null")
