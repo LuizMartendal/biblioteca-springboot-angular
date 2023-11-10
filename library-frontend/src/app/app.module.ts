@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { UserModule } from './view/user/user.module';
 import { BookModule } from './view/book/book.module';
 import { AuthComponent } from './view/auth/auth.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import { AuthComponent } from './view/auth/auth.component';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
     UserModule,
     BookModule
   ],

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppStorageService } from './core/app-storage/app-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -7,14 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {}
+  constructor(
+    private appStorage: AppStorageService
+  ) {}
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    
   }
 
   hasSession() {
-    return true;
+    return this.appStorage.get(AppStorageService.KEY_STORAGE.token);
   }
 
   logout() {
