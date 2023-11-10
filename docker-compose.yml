@@ -1,0 +1,33 @@
+version: '3.9'
+services: 
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: library
+      TZ: America/Sao_Paulo
+    ports:
+      - 5432:5432
+    networks:
+      - library-network
+  library:
+    image: libraryv1
+    restart: always
+    build: ./library
+    working_dir: /library
+    environment:
+      - TZ=America/Sao_Paulo
+      - SPRING.DATASOURCE.URL=jdbc:postgresql://db:5432/library?useTimezone=true&serverTimezone=UTC
+      - SPRING.DATASOURCE.USERNAME=postgres
+      - SPRING.DATASOURCE.PASSWORD=root
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - library-network
+networks:
+  library-network:
+    driver: bridge
