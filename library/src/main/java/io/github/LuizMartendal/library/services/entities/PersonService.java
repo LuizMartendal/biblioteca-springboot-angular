@@ -34,7 +34,7 @@ public class PersonService extends ServiceImpl<Person> implements UserDetailsSer
     public Person create(Person entity) {
         try {
             if (findByUsername(entity.getUsername()) != null) {
-                throw new BadRequestException("There´s already a user with this username");
+                throw new BadRequestException("There?s already a user with this username");
             }
         } catch (NotFoundException nfe) {
             entity.setPassword(new BCryptPasswordEncoder().encode(entity.getPassword()));
@@ -44,7 +44,7 @@ public class PersonService extends ServiceImpl<Person> implements UserDetailsSer
 
     public Person findByUsername(String username) {
         Optional<Person> personOptional = repository.findByUsername(username);
-        if (personOptional.isEmpty()) {
+        if (!personOptional.isPresent()) {
             throw new NotFoundException("Username " + username + " not found");
         }
         return personOptional.get();
