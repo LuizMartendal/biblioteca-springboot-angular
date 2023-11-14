@@ -1,3 +1,124 @@
-<p>
-  create works!
-</p>
+<ion-content>
+  <ion-grid>
+    <ion-back-button style="width: 5%; font-weight: 550;" defaultHref="/login" color="primary" text="Back"></ion-back-button>
+    <ion-row>
+      <ion-col sizeMd="3" sizeXs="0"></ion-col>
+      <ion-col sizeMd="6" sizeXs="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card color="primary">
+              <ion-card-content>
+                <ion-icon name="library-sharp"></ion-icon>
+              </ion-card-content>
+            </ion-card>
+            <ion-card-title>
+              Create an account
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="formUser">
+              <ion-grid>
+                <ion-row>
+                    <ion-col sizeMd="6" sizeXs="12">
+                      <ion-input
+                        fill="solid"
+                        labelPlacement="floating"
+                        [clearInput]="true"
+                        class="custom"
+                        placeholder="Type your first name"
+                        formControlName="firstName"
+                        helper-text="First name must contain at least 3 characters"
+                        error-text="First name is a mandatory field"
+                        >
+                        <div slot="label">First name <ion-text color="danger">*</ion-text></div>
+                      </ion-input>
+                    </ion-col>
+                    <ion-col sizeMd="6" sizeXs="12">
+                      <ion-input
+                        fill="solid"
+                        labelPlacement="floating"
+                        [clearInput]="true"
+                        class="custom"
+                        placeholder="Type your last name"
+                        formControlName="lastName"
+                        helper-text="Last name must contain at least 3 characters"
+                        error-text="Last name is a mandatory field"
+                        >
+                        <div slot="label">Last name <ion-text color="danger">*</ion-text></div>
+                      </ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col sizeMd="6" sizeXs="12">
+                    <ion-input
+                      fill="solid"
+                      labelPlacement="floating"
+                      [clearInput]="true"
+                      class="custom"
+                      placeholder="Type your username"
+                      formControlName="username"
+                      helper-text="Username must contain at least 3 characters"
+                      error-text="Username is a mandatory field"
+                      >
+                      <div slot="label">Username <ion-text color="danger">*</ion-text></div>
+                    </ion-input>
+                  </ion-col>
+                  <ion-col sizeMd="6" sizeXs="12">
+                    <ion-input
+                      fill="solid"
+                      labelPlacement="floating"
+                      [clearInput]="true"
+                      class="custom"
+                      placeholder="Type your password"
+                      formControlName="password"
+                      helper-text="Password must contain at least 4 characters"
+                      error-text="Password is a mandatory field"
+                      >
+                      <div slot="label">Password <ion-text color="danger">*</ion-text></div>
+                    </ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col sizeMd="6" sizeXs="12">
+                    <ion-input
+                      fill="solid"
+                      labelPlacement="floating"
+                      [clearInput]="true"
+                      class="custom"
+                      placeholder="Type your address"
+                      formControlName="address"
+                      error-text="Address is a mandatory field"
+                      >
+                      <div slot="label">Address <ion-text color="danger">*</ion-text></div>
+                    </ion-input>
+                  </ion-col>
+                  <ion-col sizeMd="6" sizeXs="12">
+                    <ion-select
+                      class="custom"
+                      fill="solid"
+                      interface="popover"
+                      labelPlacement="floating"
+                      placeholder="Select your gender"
+                      formControlName="gender"
+                      >
+                        <ion-select-option *ngFor="let gender of genders" [value]="gender.value">{{ gender.value }}</ion-select-option>
+                        <div slot="label">Perfil <ion-text color="danger">*</ion-text></div>
+                    </ion-select>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col sizeMd="2"></ion-col>
+                    <ion-col sizeMd="8" sizeXs="12">
+                        <ion-button [disabled]="!formUser.valid" (click)="submit()" style="font-weight: 500; width: 100%;" size="default" color="primary">Create</ion-button>
+                    </ion-col>
+                    <ion-col sizeMd="2"></ion-col>
+                </ion-row>
+            </ion-grid>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col sizeMd="3" sizeXs="0"></ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AppNotifyService } from 'src/app/core/app-notify/app-notify.service';
 import { AppStorageService } from 'src/app/core/app-storage/app-storage.service';
 import { UserService } from 'src/app/core/entities/user/user.service';
-import { Token } from 'src/app/interfaces/util/Token';
 
 @Component({
   selector: 'app-auth',
@@ -25,7 +24,12 @@ export class AuthComponent  implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const token = this.appStorage.get(AppStorageService.KEY_STORAGE.token);
+    if (token) {
+      this.router.navigate(['/book']);
+    }
+  }
 
   submit() {
     const credentials: Credential = this.formAuth.value;
@@ -33,7 +37,7 @@ export class AuthComponent  implements OnInit {
     this.userService.login(credentials).subscribe({
       next: (token: any) => {
         this.appStorage.set(AppStorageService.KEY_STORAGE.token, token);
-        this.appNotify.successMessage('Bem vindo(a)!');
+        this.appNotify.successMessage('Welcome!');
         this.router.navigate(['/book']);
       },
       error: (error: any) => this.showMessageError(error.error)

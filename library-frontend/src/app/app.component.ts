@@ -9,13 +9,26 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
+  public pages: any = [];
+
+  public username: string = '';
+
   constructor(
     private appStorage: AppStorageService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    
+    const token = this.appStorage.get(AppStorageService.KEY_STORAGE.token);
+    if (token) {
+      this.username = token.user;
+
+      this.pages = [
+        { name: 'Books', icon: 'library', link: 'book' },
+        { name: 'New book', icon: 'add', link: 'book/create' },
+        { name: 'My user', icon: 'person-add', link: 'user/my-user' },
+      ];
+    }
   }
 
   hasSession() {

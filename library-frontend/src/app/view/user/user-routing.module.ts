@@ -1,7 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CreateComponent } from './create/create.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '', redirectTo: 'my-user', pathMatch: 'full'
+  },
+  {
+    path: 'create', component: CreateComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

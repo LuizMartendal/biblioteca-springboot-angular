@@ -11,7 +11,7 @@ export class AppNotifyService {
   ) { }
 
   successMessage(message: string) {
-    this.toastrService.success(message, 'Sucesso', {
+    this.toastrService.success(message, 'Success', {
       progressBar: true,
       timeOut: 10000,
       positionClass: 'toast-bottom-right',
@@ -19,7 +19,7 @@ export class AppNotifyService {
   }
 
   errorMessage(message: string) {
-    this.toastrService.error(message, 'Erro', {
+    this.toastrService.error(message, 'Error', {
       progressBar: true,
       timeOut: 10000,
       positionClass: 'toast-bottom-right'

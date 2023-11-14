@@ -12,7 +12,7 @@ export class UserService extends EntityService<User> {
   constructor(
     private httpClient: HttpClient
   ) {
-    super(httpClient, `${environment.URL}/user`)
+    super(httpClient, `${environment.URL}/person`)
    }
 
    login(credentials: Credential) {
