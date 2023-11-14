@@ -1,7 +1,9 @@
 package io.github.LuizMartendal.library.exceptions;
 
 import io.github.LuizMartendal.library.exceptions.especifics.BadRequestException;
+import io.github.LuizMartendal.library.exceptions.especifics.JwtExpiredException;
 import io.github.LuizMartendal.library.exceptions.especifics.NotFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -30,13 +32,26 @@ public class ExceptionHandlerInterceptor {
         ));
     }
 
-    @ExceptionHandler({AccessDeniedException.class, InsufficientAuthenticationException.class})
-    public ResponseEntity<StandError> userServerError(Exception e) {
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<StandError> userServerError(AccessDeniedException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 new StandError(
                         HttpStatus.UNAUTHORIZED.name(),
                         "You cannot access this service",
                         HttpStatus.UNAUTHORIZED.value(),
+                        System.currentTimeMillis()
+                )
+        );
+    }
+
+    @ExceptionHandler({JwtExpiredException.class})
+    public ResponseEntity<StandError> jwtExpiredException(JwtExpiredException e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                new StandError(
+                        HttpStatus.FORBIDDEN.name(),
+                        "Your session is expired",
+                        HttpStatus.FORBIDDEN.value(),
                         System.currentTimeMillis()
                 )
         );

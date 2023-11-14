@@ -3,11 +3,14 @@ package io.github.LuizMartendal.library.security;
 import io.github.LuizMartendal.library.dtos.TokenDto;
 import io.github.LuizMartendal.library.enuns.Roles;
 import io.github.LuizMartendal.library.exceptions.especifics.BadRequestException;
+import io.github.LuizMartendal.library.exceptions.especifics.JwtExpiredException;
 import io.github.LuizMartendal.library.services.entities.PersonService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -58,11 +61,15 @@ public class JwtTokenProvider {
     }
 
     private Claims decodeToken(String token) {
-        return Jwts.
-                parser()
-                .setSigningKey(secretKey.getBytes())
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.
+                    parser()
+                    .setSigningKey(secretKey.getBytes())
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new JwtExpiredException("Your session is expired");
+        }
     }
 
     public boolean tokenIsValid(String token) {

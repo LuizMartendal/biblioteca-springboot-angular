@@ -1,5 +1,5 @@
 ion-grid {
-    margin: 25px;
+    margin-top: 25px;
     ion-row {
         ion-col {
             ion-card {
@@ -8,7 +8,7 @@ ion-grid {
                     justify-content: center;
                     align-items: center;
 
-                    ion-card {
+                    .card-icon {
                         height: 230px;
                         width: 250px;
                         box-shadow: none;

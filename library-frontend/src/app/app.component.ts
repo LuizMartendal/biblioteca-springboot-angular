@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStorageService } from './core/app-storage/app-storage.service';
 import { Router } from '@angular/router';
+import { ViewDidEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, ViewDidEnter {
 
   public pages: any = [];
 
@@ -17,6 +18,10 @@ export class AppComponent implements OnInit {
     private appStorage: AppStorageService,
     private router: Router
   ) {}
+
+  ionViewDidEnter(): void {
+    this.ngOnInit();
+  }
 
   ngOnInit(): void {
     const token = this.appStorage.get(AppStorageService.KEY_STORAGE.token);

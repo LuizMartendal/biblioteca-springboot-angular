@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationEntryPointException implements AuthenticationEntryPoint {
 
-    private HandlerExceptionResolver resolver;
+    private final HandlerExceptionResolver resolver;
 
     CustomAuthenticationEntryPointException(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
         this.resolver = resolver;
