@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStorageService } from './core/app-storage/app-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { AppStorageService } from './core/app-storage/app-storage.service';
 export class AppComponent implements OnInit {
 
   constructor(
-    private appStorage: AppStorageService
+    private appStorage: AppStorageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -22,5 +24,6 @@ export class AppComponent implements OnInit {
 
   logout() {
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

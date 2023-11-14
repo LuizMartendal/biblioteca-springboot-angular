@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserModule } from './view/user/user.module';
 import { BookModule } from './view/book/book.module';
 import { AuthComponent } from './view/auth/auth.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { AuthComponent } from './view/auth/auth.component';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    ToastrModule.forRoot(),
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
