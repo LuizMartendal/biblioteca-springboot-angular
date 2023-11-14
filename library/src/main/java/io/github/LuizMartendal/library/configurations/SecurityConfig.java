@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PRIVATE_MATCHER_PUT = {"/person/**", "/book/**"};
 
-    private static final String[] PRIVATE_MATCHER_GET = {"/person/**"};
+    private static final String[] PRIVATE_MATCHER_GET = {"/person/**", "/person/logged"};
 
     private static final String[] PRIVATE_MATCHER_GET_ADMIN = {"/person"};
 

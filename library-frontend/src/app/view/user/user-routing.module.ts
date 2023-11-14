@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './create/create.component';
+import { MyUserComponent } from './my-user/my-user.component';
+import { AuthGuard } from 'src/app/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,6 +10,9 @@ const routes: Routes = [
   },
   {
     path: 'create', component: CreateComponent
+  },
+  {
+    path: 'my-user', component: MyUserComponent, canActivate: [AuthGuard]
   }
 ];
 

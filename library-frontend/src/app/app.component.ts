@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       this.pages = [
         { name: 'Books', icon: 'library', link: 'book' },
         { name: 'New book', icon: 'add', link: 'book/create' },
-        { name: 'My user', icon: 'person-add', link: 'user/my-user' },
+        { name: 'My user', icon: 'person', link: 'user/my-user' },
       ];
     }
   }

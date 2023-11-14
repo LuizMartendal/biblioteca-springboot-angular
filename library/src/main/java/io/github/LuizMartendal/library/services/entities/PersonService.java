@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -42,6 +43,16 @@ public class PersonService extends ServiceImpl<Person> implements UserDetailsSer
         return super.create(entity);
     }
 
+    @Transactional
+    @Override
+    public Person update(UUID id, Person entity) {
+        Person entityFound = this.getById(id);
+        if (entity.getPassword() != null && !entityFound.getPassword().equals(entity.getPassword())) {
+            entity.setPassword(new BCryptPasswordEncoder().encode(entity.getPassword()));
+        }
+        return super.update(id, entity);
+    }
+
     public Person findByUsername(String username) {
         Optional<Person> personOptional = repository.findByUsername(username);
         if (!personOptional.isPresent()) {
@@ -67,5 +78,11 @@ public class PersonService extends ServiceImpl<Person> implements UserDetailsSer
             return user.getUsername();
         }
         return "Not Authenticated";
+    }
+
+    public Person getLoggedUserEntity() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return this.repository.findByUsername(user.getUsername())
+                .orElseThrow(() -> new BadRequestException("Not authenticated"));
     }
 }

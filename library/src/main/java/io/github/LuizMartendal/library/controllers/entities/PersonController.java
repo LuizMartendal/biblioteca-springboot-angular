@@ -7,16 +7,13 @@ import io.github.LuizMartendal.library.services.entities.PersonService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Tag(name = "Person service", description = "This service is responsible for managing users")
 @RestController
-@RequestMapping(value = "person")
+@RequestMapping(value = "/person")
 public class PersonController extends ControllerImpl<Person> {
 
     @Autowired
@@ -25,6 +22,11 @@ public class PersonController extends ControllerImpl<Person> {
     @Override
     public Service<Person> getService() {
         return service;
+    }
+
+    @GetMapping("/logged")
+    public ResponseEntity<Person> getLoggedUserEntity() {
+        return ResponseEntity.ok().body(service.getLoggedUserEntity());
     }
 
 }

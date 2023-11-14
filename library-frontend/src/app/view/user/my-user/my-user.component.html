@@ -1,23 +1,21 @@
 <ion-content>
-  <ion-row style="margin-bottom: 0; padding-bottom: 0;">
-    <ion-col size="1" style="margin-bottom: 0; padding-bottom: 0;">
-      <ion-back-button defaultHref="/login" color="primary" text="Back"></ion-back-button>
+  <ion-row>
+    <ion-col size="1">
+      <ion-back-button defaultHref="/book" color="primary" text="Back"></ion-back-button>
     </ion-col>
   </ion-row>
-  <ion-grid style="margin-top: 0; padding-top: 0;">
+  <ion-grid>
     <ion-row>
       <ion-col sizeMd="3" sizeXs="0"></ion-col>
       <ion-col sizeMd="6" sizeXs="12">
         <ion-card>
           <ion-card-header>
-            <ion-card color="primary">
-              <ion-card-content>
-                <ion-icon name="library-sharp"></ion-icon>
-              </ion-card-content>
-            </ion-card>
             <ion-card-title>
-              Create an account
+              Hi, 
             </ion-card-title>
+            <ion-card-subtitle>
+              Here, you can view and update your profile
+            </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <form [formGroup]="formUser">
@@ -57,7 +55,7 @@
                     <ion-input
                       fill="solid"
                       labelPlacement="floating"
-                      [clearInput]="true"
+                      readonly="true"
                       class="custom"
                       placeholder="Type your username"
                       formControlName="username"
@@ -105,7 +103,7 @@
                       placeholder="Select your gender"
                       formControlName="gender"
                       >
-                        <ion-select-option *ngFor="let gender of genders" [value]="gender.value">{{ gender.value }}</ion-select-option>
+                        <ion-select-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</ion-select-option>
                         <div slot="label">Gender <ion-text color="danger">*</ion-text></div>
                     </ion-select>
                   </ion-col>
@@ -113,7 +111,7 @@
                 <ion-row>
                     <ion-col sizeMd="2"></ion-col>
                     <ion-col sizeMd="8" sizeXs="12">
-                        <ion-button [disabled]="!formUser.valid" (click)="submit()" style="font-weight: 500; width: 100%;" size="default" color="primary">Create</ion-button>
+                        <ion-button [disabled]="!formUser.valid" (click)="submit()" style="font-weight: 500; width: 100%;" size="default" color="primary">Update</ion-button>
                     </ion-col>
                     <ion-col sizeMd="2"></ion-col>
                 </ion-row>

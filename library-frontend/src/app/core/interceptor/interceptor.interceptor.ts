@@ -25,7 +25,7 @@ export class InterceptorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token: Token = this.appStorage.get(AppStorageService.KEY_STORAGE.token);
     if (token) {
-      request = request.clone({headers: request.headers.set('Authorization', token.token || '')});
+      request = request.clone({headers: request.headers.set('Authorization', 'Bearer ' + token.token)});
     }
     return next.handle(request)
     .pipe(catchError((error: any) => {
@@ -42,7 +42,7 @@ export class InterceptorInterceptor implements HttpInterceptor {
         this.router.navigate(['/']);
 
         if (!this.toastDisplayed) {
-          this.appNotify.errorMessage("Sem conexão. Tente novamente mais tarde...");
+          this.appNotify.errorMessage("Error. Try again later...");
           this.toastDisplayed = true;
         }
       }

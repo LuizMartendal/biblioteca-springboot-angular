@@ -25,10 +25,6 @@ export class AuthComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    const token = this.appStorage.get(AppStorageService.KEY_STORAGE.token);
-    if (token) {
-      this.router.navigate(['/book']);
-    }
   }
 
   submit() {

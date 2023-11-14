@@ -18,4 +18,8 @@ export class UserService extends EntityService<User> {
    login(credentials: Credential) {
     return this.http.post(`${environment.URL}/login`, credentials);
    }
+
+   loggedUser() {
+    return this.http.get(`${environment.URL}/person/logged`);
+   }
 }
