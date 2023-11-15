@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, ViewDidEnter {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((res) => {
+    this.router.events.subscribe(() => {
       const token = this.appStorage.get(AppStorageService.KEY_STORAGE.token);
       if (token) {
         this.username = token.user;
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, ViewDidEnter {
   async logout() {
     const alert = await this.alertController.create({
       header: 'Warning!',
-      message: 'Do you realy want to logout?',
+      message: 'Do you really want to logout?',
       buttons: [
         {
           text: 'No',

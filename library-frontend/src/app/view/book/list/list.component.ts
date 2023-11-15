@@ -71,7 +71,7 @@ export class ListComponent  implements OnInit, ViewDidEnter {
   async delete(id: any) {
     const alert = await this.alertController.create({
       header: 'Warning!',
-      message: 'Do you realy want to delete this book?',
+      message: 'Do you really want to delete this book?',
       buttons: [
         {
           text: 'No',
