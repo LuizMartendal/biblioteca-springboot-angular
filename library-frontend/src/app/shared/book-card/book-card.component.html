@@ -2,25 +2,32 @@
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col sizeXs="11" class="label">Title</ion-col>
-        <ion-col sizeXs="1">
+        <ion-col sizeMd="11" sizeXs="10">
+          <ion-row>
+            <ion-col sizeXs="11" class="label">Title</ion-col>
+            <ion-col sizeXs="12">{{ book?.title }}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col sizeXs="12" class="label">Author</ion-col>
+            <ion-col sizeXs="12">{{ book?.author }}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col sizeXs="12" class="label">Price</ion-col>
+            <ion-col sizeXs="12">{{ book?.price }}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col sizeXs="12" class="label">Release Date</ion-col>
+            <ion-col sizeXs="12">{{ book?.launchDate | date: 'yyyy/MM/dd' }}</ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col sizeMd="1" sizeXs="2">
           <ion-button>
-            <ion-icon name="create-outline"></ion-icon>
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button >
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col sizeXs="12">{{ book?.title }}</ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col sizeXs="12" class="label">Author</ion-col>
-        <ion-col sizeXs="12">{{ book?.author }}</ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col sizeXs="12" class="label">Price</ion-col>
-        <ion-col sizeXs="12">{{ book?.price }}</ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col sizeXs="12" class="label">Release Date</ion-col>
-        <ion-col sizeXs="12">{{ book?.launchDate | date: 'yyyy/MM/dd' }}</ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>

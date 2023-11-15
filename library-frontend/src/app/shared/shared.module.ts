@@ -15,7 +15,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatPaginatorModule
   ],
   exports: [
-    BookCardComponent
+    BookCardComponent,
+    MatPaginatorModule
   ]
 })
 export class SharedModule { }

@@ -3,12 +3,26 @@
     <ion-row>
       <ion-col sizeMd="1" sizeXs="0"></ion-col>
       <ion-col sizeMd="10" sizeXs="12">
-        <div style="display: flex; justify-content: space-between;">
-          <ion-title style="font-weight: 600; font-size: 25px;">
-            Registered Books
-          </ion-title>
-          <ion-button routerLink="/book/create" style="margin-right: 15px;">New Book</ion-button>
-        </div>
+        <ion-row *ngIf="!isMobile">
+          <ion-col>
+            <ion-title style="font-weight: 600; font-size: 25px;">
+              Registered Books
+            </ion-title>
+          </ion-col>
+          <ion-col sizeMd="1" sizeXs="12">
+            <ion-button routerLink="/book/create" style="margin-right: 15px;">New Book</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="isMobile">
+          <ion-col sizeXs="12">
+            <ion-title style="font-weight: 600; font-size: 25px;">
+              Registered Books
+            </ion-title>
+          </ion-col>
+          <ion-col sizeXs="12" style="display: flex; justify-content: center; align-items: center;">
+            <ion-button routerLink="/book/create" style="width: 80%; margin-top: 20px;">New Book</ion-button>
+          </ion-col>
+        </ion-row>
         <ion-row *ngIf="isLoading">
           <ion-col size="12" style="display: flex; justify-content: center; align-items: center;">
             <ion-spinner name="circular"></ion-spinner>
@@ -22,6 +36,18 @@
         <ion-row *ngIf="books?.content.length > 0">
           <ion-col sizeMd="6" sizeXs="12" *ngFor="let book of books?.content">
             <app-book-card [book]="book"></app-book-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <mat-paginator *ngIf="!isMobile && books?.totalElements >= 10 && !isLoading"
+              #paginator
+              [pageIndex]="page"
+              [pageSize]="size"
+              [pageSizeOptions]="[10, 25, 100]"
+              [length]="books?.totalElements"
+              (page)="onPage($event)">
+            </mat-paginator>
           </ion-col>
         </ion-row>
       </ion-col>

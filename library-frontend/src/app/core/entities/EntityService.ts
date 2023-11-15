@@ -15,7 +15,7 @@ export class EntityService<T> {
 
     public getListQueryParams(listParams?: ListParams) {
         if (listParams) {
-            let { page = 0, size = 10, sort = [], filtro = '', order } = listParams;
+            let { page = 0, size, sort = [], filtro = '', order } = listParams;
     
             let params = new HttpParams();
         
@@ -35,8 +35,14 @@ export class EntityService<T> {
         
             if (filtro) { params = params.append('filter', filtro); }
         
-            params = params.append('size', String(size));
-            params = params.append('page', String(page));
+            if (size) {
+              params = params.append('size', String(size));
+            }
+
+            if (page) {
+              params = params.append('page', String(page));
+            }
+
             if (order) {
                 params = params.append('order', String(order));
             }

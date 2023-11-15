@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStorageService } from './core/app-storage/app-storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ViewDidEnter } from '@ionic/angular';
 
 @Component({
@@ -16,7 +16,8 @@ export class AppComponent implements OnInit, ViewDidEnter {
 
   constructor(
     private appStorage: AppStorageService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ionViewDidEnter(): void {
@@ -24,16 +25,18 @@ export class AppComponent implements OnInit, ViewDidEnter {
   }
 
   ngOnInit(): void {
-    const token = this.appStorage.get(AppStorageService.KEY_STORAGE.token);
-    if (token) {
-      this.username = token.user;
+    this.activatedRoute.params.subscribe((res) => {
+      const token = this.appStorage.get(AppStorageService.KEY_STORAGE.token);
+      if (token) {
+        this.username = token.user;
 
-      this.pages = [
-        { name: 'Books', icon: 'library', link: 'book' },
-        { name: 'New book', icon: 'add', link: 'book/create' },
-        { name: 'My user', icon: 'person', link: 'user/my-user' },
-      ];
-    }
+        this.pages = [
+          { name: 'Books', icon: 'library', link: 'book' },
+          { name: 'New book', icon: 'add', link: 'book/create' },
+          { name: 'My user', icon: 'person', link: 'user/my-user' },
+        ];
+      }
+    })
   }
 
   hasSession() {
