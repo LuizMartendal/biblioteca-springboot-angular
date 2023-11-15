@@ -142,7 +142,7 @@ public abstract class RepositoryImpl<T> implements Repository<T> {
         Long quantity = base.fetchCount();
 
         List<T> entity = base.fetch();
-        return new Page<>(entity, quantity, filter.getSize() != null ? quantity / filter.getSize() + 1 : 1L);
+        return new Page<>(entity, quantity, filter.getSize() > 0 ? (quantity / filter.getSize()) + 1 : 1L);
     }
 
     @Override

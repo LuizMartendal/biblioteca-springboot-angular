@@ -20,11 +20,11 @@
             <ion-col sizeXs="12">{{ book?.launchDate | date: 'yyyy/MM/dd' }}</ion-col>
           </ion-row>
         </ion-col>
-        <ion-col sizeMd="1" sizeXs="2">
-          <ion-button>
+        <ion-col sizeMd="1" sizeXs="2" *ngIf="user === book?.createdBy">
+          <ion-button (click)="editBook()">
             <ion-icon slot="icon-only" name="create-outline"></ion-icon>
           </ion-button>
-          <ion-button >
+          <ion-button (click)="deleteBook()">
             <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
           </ion-button>
         </ion-col>

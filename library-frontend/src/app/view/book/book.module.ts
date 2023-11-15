@@ -6,6 +6,7 @@ import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     BookRoutingModule,
     IonicModule.forRoot(),
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class BookModule { }

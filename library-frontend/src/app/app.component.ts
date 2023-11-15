@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStorageService } from './core/app-storage/app-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ViewDidEnter } from '@ionic/angular';
+import { AlertController, ViewDidEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,8 @@ export class AppComponent implements OnInit, ViewDidEnter {
   constructor(
     private appStorage: AppStorageService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private alertController: AlertController
   ) {}
 
   ionViewDidEnter(): void {
@@ -43,8 +44,31 @@ export class AppComponent implements OnInit, ViewDidEnter {
     return this.appStorage.get(AppStorageService.KEY_STORAGE.token);
   }
 
-  logout() {
-    localStorage.clear();
-    this.router.navigate(['/login']);
+  async logout() {
+    const alert = await this.alertController.create({
+      header: 'Warning!',
+      message: 'Do you realy want to logout?',
+      buttons: [
+        {
+          text: 'No',
+          htmlAttributes: {
+            'aria-label': 'alert dialog',
+          },
+          role: 'no'
+        },
+        {
+          text: 'Yes',
+          htmlAttributes: {
+            'aria-label': 'alert dialog',
+          },
+          role: 'yes',
+          handler: () => {
+            localStorage.clear();
+            this.router.navigate(['/login']);
+          }
+        }
+      ],
+    });
+    alert.present();
   }
 }

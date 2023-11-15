@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class CustomAuthenticationEntryPointException implements AuthenticationEntryPoint {
+public class CustomBearerTokenAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final HandlerExceptionResolver resolver;
 
-    CustomAuthenticationEntryPointException(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
+    CustomBearerTokenAuthenticationEntryPoint(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
         this.resolver = resolver;
     }
     @Override

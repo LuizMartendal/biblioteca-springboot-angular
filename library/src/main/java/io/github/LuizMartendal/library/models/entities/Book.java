@@ -39,7 +39,7 @@ public class Book extends ModelImpl implements Serializable {
 
     @NotNull(message = "Launch date field cannot be null")
     @Column(columnDefinition = "date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm a z")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date launchDate;
 
     @NotNull(message = "Price field cannot be null")

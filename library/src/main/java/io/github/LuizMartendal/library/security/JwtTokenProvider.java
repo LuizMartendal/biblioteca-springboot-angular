@@ -72,12 +72,4 @@ public class JwtTokenProvider {
         }
     }
 
-    public boolean tokenIsValid(String token) {
-        try {
-            Claims claims = decodeToken(token);
-            return !claims.getExpiration().before(new Date());
-        } catch (Exception e) {
-            throw new BadRequestException("Token expired");
-        }
-    }
 }

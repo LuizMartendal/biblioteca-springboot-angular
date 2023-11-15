@@ -35,7 +35,7 @@
         </ion-row>
         <ion-row *ngIf="books?.content.length > 0">
           <ion-col sizeMd="6" sizeXs="12" *ngFor="let book of books?.content">
-            <app-book-card [book]="book"></app-book-card>
+            <app-book-card (edit)="goToEdit($event)" (delete)="delete($event)" [book]="book"></app-book-card>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -44,7 +44,7 @@
               #paginator
               [pageIndex]="page"
               [pageSize]="size"
-              [pageSizeOptions]="[10, 25, 100]"
+              [pageSizeOptions]="[16, 24, 56]"
               [length]="books?.totalElements"
               (page)="onPage($event)">
             </mat-paginator>

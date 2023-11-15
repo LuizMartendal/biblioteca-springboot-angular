@@ -1,7 +1,7 @@
 export interface Token {
-    usuario: string,
-    criadoEm: Date,
-    expiraEm: Date,
+    user: string,
+    createdIn: Date,
+    expiredIn: Date,
     token: string,
-    perfil: string
+    profile: string
 }

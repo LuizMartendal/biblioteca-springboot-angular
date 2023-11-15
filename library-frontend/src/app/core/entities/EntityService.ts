@@ -15,7 +15,7 @@ export class EntityService<T> {
 
     public getListQueryParams(listParams?: ListParams) {
         if (listParams) {
-            let { page = 0, size, sort = [], filtro = '', order } = listParams;
+            let { page, size, sort = [], filtro = '', order } = listParams;
     
             let params = new HttpParams();
         

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.UUID;
 
-@RestController
 public abstract class ControllerImpl<T> implements Controller<T> {
 
     public abstract Service<T> getService();
@@ -40,7 +39,7 @@ public abstract class ControllerImpl<T> implements Controller<T> {
     public ResponseEntity<Page<T>> retrieveAll(
             @RequestParam(name = "filter", required = false) String filter,
             @RequestParam(name = "size", required = false) Integer size,
-            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
             @RequestParam(name = "order", required = false, defaultValue = "asc") String order
     ) {
         return ResponseEntity.ok().body(getService().list(FilterImpl.parse(filter, size, page, order)));

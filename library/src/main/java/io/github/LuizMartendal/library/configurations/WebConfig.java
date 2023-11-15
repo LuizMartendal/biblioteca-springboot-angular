@@ -19,7 +19,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean

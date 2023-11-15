@@ -29,6 +29,8 @@ export class InterceptorInterceptor implements HttpInterceptor {
     }
     return next.handle(request)
     .pipe(catchError((error: any) => {
+      console.log(error);
+      
       if (error.status === 403) {
         localStorage.clear();
         this.router.navigate(['/']);

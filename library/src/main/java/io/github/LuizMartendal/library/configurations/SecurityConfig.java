@@ -1,33 +1,26 @@
 package io.github.LuizMartendal.library.configurations;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.LuizMartendal.library.exceptions.CustomAccessDeniedHandlerImpl;
-import io.github.LuizMartendal.library.exceptions.CustomAuthenticationEntryPointException;
+import io.github.LuizMartendal.library.exceptions.CustomBearerTokenAccessDeniedHandler;
+import io.github.LuizMartendal.library.exceptions.CustomBearerTokenAuthenticationEntryPoint;
 import io.github.LuizMartendal.library.security.JwtTokenFilter;
 import io.github.LuizMartendal.library.security.JwtTokenProvider;
 import io.github.LuizMartendal.library.services.entities.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -37,10 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private PersonService personService;
 
     @Autowired
-    private CustomAccessDeniedHandlerImpl accessDeniedHandler;
+    private CustomBearerTokenAccessDeniedHandler accessDeniedHandler;
 
     @Autowired
-    private CustomAuthenticationEntryPointException authenticationEntryPointException;
+    private CustomBearerTokenAuthenticationEntryPoint authenticationEntryPointException;
+
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver resolver;
 
     private static final String[] PUBLIC_MATCHER = {"/swagger-ui/**", "/swagger-ui.html", "/v3/**",
             "/login", "swagger-ui/index.html", "/*.js", "/*.js.map", "/*.html", "/", "/*.css", "/*.json",
@@ -71,8 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf().disable()
                 .exceptionHandling()
-                    .accessDeniedHandler(accessDeniedHandler)
                     .authenticationEntryPoint(authenticationEntryPointException)
+                    .accessDeniedHandler(accessDeniedHandler)
                 .and()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests(
@@ -88,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .headers().frameOptions().disable()
                 .and()
-                .addFilterBefore(new JwtTokenFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtTokenFilter(resolver, tokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
