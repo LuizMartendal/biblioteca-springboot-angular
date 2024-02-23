@@ -1,5 +1,5 @@
 # Biblioteca-SpringBoot-Angular
- WebService básica de uma biblioteca, utilizando tecnologias como Angular, Spring Boot, Spring Security com autenticação por Token e Docker
+ WebService *básica* de uma biblioteca, utilizando tecnologias como Angular, Spring Boot, Spring Security com autenticação por Token e Docker
 ## Tecnologias utilizadas
 - Spring Boot
 - Java
