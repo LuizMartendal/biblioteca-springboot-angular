@@ -24,3 +24,5 @@
   Ao clonar o repositório, importe o projeto SpringBoot para a IDE desejada e tendo o Java instalado, você já pode inicia-lo.
 #### Front-end:
   Para executar o front, é necessário ter o NodeJS e Angular CLI instalados. Após instalados, basta iniciar o comando ```npm i``` ou ```npm i --f```. Este é um projeto Ionic, sendo assim, é necessário executar o seguinte comando ```npm i -g @ionic/cli```. Com as pastas do node_modules instalada, inicie o projeto com ```ionic s```
+### Endpoints
+  Você pode acessar os endpoints da aplicação através do Swagger ```http://localhost:8080/swagger-ui/index.html```
